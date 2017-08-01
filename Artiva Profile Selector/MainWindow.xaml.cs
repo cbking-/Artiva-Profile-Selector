@@ -1,17 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using Microsoft.Win32;
+using System.Collections.ObjectModel;
 
 namespace Artiva_Profile_Selector
 {
@@ -24,5 +14,56 @@ namespace Artiva_Profile_Selector
         {
             InitializeComponent();
         }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            var ArtivaProfiles = new ObservableCollection<ArtivaProfile>();
+
+            var path = @"";
+
+            try
+            {
+                using (RegistryKey key = Registry.CurrentUser.OpenSubKey(path))
+                {
+                    if (key != null)
+                    {
+                        foreach (String subkey in key.GetValueNames())
+                        {
+                            var item = new ArtivaProfile { Namespace = subkey, Description = "", User = "" };
+
+                            ArtivaProfiles.Add(item);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            Profiles.ItemsSource = ArtivaProfiles;
+                
+        }
+
+        private void openWorkstation_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("Open Workstation Clicked");
+        }
+
+        private void openStudio_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("Open Studio Clicked");
+        }
+
+        private void addProfile_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("Add Profile Clicked");
+        }
+    }
+
+    public class ArtivaProfile
+    {
+        public string Namespace { get; set; }
+        public string Description { get; set; }
+        public string User { get; set; }
     }
 }
