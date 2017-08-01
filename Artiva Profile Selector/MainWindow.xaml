@@ -7,39 +7,98 @@
         Loaded="Window_Loaded"
         mc:Ignorable="d"
         Title="Artiva Profiles" Height="350" Width="525">
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="35*"/>
-            <RowDefinition Height="246*"/>
-            <RowDefinition Height="38*"/>
-        </Grid.RowDefinitions>
-        <Button Grid.Row="0" x:Name="addProfile" Content="Add Profile" Click="addProfile_Click" HorizontalAlignment="Left" Margin="5, 0" VerticalAlignment="Center" Width="100"/>
-        <DataGrid Grid.Row="1" AutoGenerateColumns="True" Name="Profiles" ColumnWidth="*" IsReadOnly="True" >
-        </DataGrid>
-        <StackPanel Grid.Row="2" Orientation="Horizontal" >
-            <Button x:Name="openWorkstation" Content="Open Workstation" Click="openWorkstation_Click" HorizontalAlignment="Left" Margin="5, 0" VerticalAlignment="Center" Width="100">
-                <Button.Style>
-                    <Style TargetType="{x:Type Button}">
-                        <Style.Triggers>
-                            <DataTrigger Binding="{Binding ElementName=Profiles, Path=SelectedItem}" Value="{x:Null}">
-                                <Setter Property="IsEnabled" Value="False"/>
-                            </DataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </Button.Style>
-            </Button>
-            <Button x:Name="openStudio" Content="Open Studio" Click="openStudio_Click" HorizontalAlignment="Left" Margin="5,0 " VerticalAlignment="Center" Width="100">
-                <Button.Style>
-                    <Style TargetType="{x:Type Button}">
-                        <Style.Triggers>
-                            <DataTrigger Binding="{Binding ElementName=Profiles, Path=SelectedItem}" Value="{x:Null}">
-                                <Setter Property="IsEnabled" Value="False"/>
-                            </DataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </Button.Style>
-            </Button>
-        </StackPanel>
-    </Grid>
-
+    <TabControl>
+        <TabItem>
+            <TabItem.Header>
+                <TextBlock Text="Profiles"/>
+            </TabItem.Header>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="35*"/>
+                    <RowDefinition Height="246*"/>
+                    <RowDefinition Height="38*"/>
+                </Grid.RowDefinitions>
+                <Button Grid.Row="0" x:Name="addProfile" Content="Add Profile" Click="addProfile_Click" HorizontalAlignment="Left" Margin="5, 0" VerticalAlignment="Center" Width="100"/>
+                <DataGrid Grid.Row="1" AutoGenerateColumns="False" Name="Profiles" ColumnWidth="*" IsReadOnly="True">
+                    <DataGrid.Columns>
+                        <DataGridTemplateColumn Header="Profile">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding ProfileName}" />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Header="Description">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Description}" />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Header="Namespace">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Namespace}" />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Header="User">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding User}" />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+                <StackPanel Grid.Row="2" Orientation="Horizontal" >
+                    <Button x:Name="openWorkstation" Content="Open Workstation" Click="openWorkstation_Click" HorizontalAlignment="Left" Margin="5, 0" VerticalAlignment="Center" Width="100">
+                        <Button.Style>
+                            <Style TargetType="{x:Type Button}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding ElementName=Profiles, Path=SelectedItem}" Value="{x:Null}">
+                                        <Setter Property="IsEnabled" Value="False"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                    </Button>
+                    <Button x:Name="openStudio" Content="Open Studio" Click="openStudio_Click" HorizontalAlignment="Left" Margin="5,0 " VerticalAlignment="Center" Width="100">
+                        <Button.Style>
+                            <Style TargetType="{x:Type Button}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding ElementName=Profiles, Path=SelectedItem}" Value="{x:Null}">
+                                        <Setter Property="IsEnabled" Value="False"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                    </Button>
+                </StackPanel>
+            </Grid>
+        </TabItem>
+        <TabItem>
+            <TabItem.Header>
+                <TextBlock Text="Profile Settings"/>
+            </TabItem.Header>
+            <TabItem.Style>
+                <Style TargetType="{x:Type TabItem}">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding ElementName=Profiles, Path=SelectedItem}" Value="{x:Null}">
+                            <Setter Property="IsEnabled" Value="False"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </TabItem.Style>
+            <StackPanel Orientation="Vertical" DataContext="{Binding ElementName=Profiles, Path=SelectedItem}">
+                <Label>Profile Name</Label>
+                <TextBox Text="{Binding Path=ProfileName}"/>
+            </StackPanel>
+        </TabItem>
+        <TabItem>
+            <TabItem.Header>
+                <TextBlock Text="General Settings"/>
+            </TabItem.Header>
+        </TabItem>
+    </TabControl>
 </Window>

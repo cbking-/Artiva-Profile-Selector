@@ -19,7 +19,7 @@ namespace Artiva_Profile_Selector
         {
             var ArtivaProfiles = new ObservableCollection<ArtivaProfile>();
 
-            var path = @"";
+            var path = @"Software\VB and VBA Program Settings\Ontario Systems API Manager\Profiles";
 
             try
             {
@@ -27,10 +27,19 @@ namespace Artiva_Profile_Selector
                 {
                     if (key != null)
                     {
-                        foreach (String subkey in key.GetValueNames())
+                        foreach (string subkey in key.GetValueNames())
                         {
-                            var item = new ArtivaProfile { Namespace = subkey, Description = "", User = "" };
-
+                            var val = (string)(key.GetValue(subkey));
+                            var item = new ArtivaProfile {
+                                ProfileName = subkey,
+                                Description = val.Split('\x7')[0],
+                                HostName = val.Split('\x7')[1],
+                                HostPort = val.Split('\x7')[2],
+                                User = val.Split('\x7')[3],
+                                Password = val.Split('\x7')[4],
+                                Namespace = val.Split('\x7')[5],
+                                DeskNumber = val.Split('\x7')[6]
+                            };
                             ArtivaProfiles.Add(item);
                         }
                     }
@@ -41,7 +50,6 @@ namespace Artiva_Profile_Selector
                 MessageBox.Show(ex.Message);
             }
             Profiles.ItemsSource = ArtivaProfiles;
-                
         }
 
         private void openWorkstation_Click(object sender, RoutedEventArgs e)
@@ -62,8 +70,13 @@ namespace Artiva_Profile_Selector
 
     public class ArtivaProfile
     {
-        public string Namespace { get; set; }
+        public string ProfileName { get; set; }
         public string Description { get; set; }
+        public string HostName { get; set; }
+        public string HostPort { get; set; }
+        public string Namespace { get; set; }
         public string User { get; set; }
+        public string Password { get; set; }
+        public string DeskNumber { get; set; }
     }
 }
