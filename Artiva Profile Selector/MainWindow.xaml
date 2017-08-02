@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Artiva_Profile_Selector"
         Loaded="Window_Loaded"
         mc:Ignorable="d"
-        Title="Artiva Profiles" Height="350" Width="525">
+        Title="Artiva Profiles" Height="500" Width="525">
     <TabControl>
         <TabItem>
             <TabItem.Header>
@@ -93,12 +93,34 @@
             <StackPanel Orientation="Vertical" DataContext="{Binding ElementName=Profiles, Path=SelectedItem}">
                 <Label>Profile Name</Label>
                 <TextBox Text="{Binding Path=ProfileName}"/>
+                <Label>Description</Label>
+                <TextBox Text="{Binding Path=Description}"/>
+                <Label>Host Name/IP</Label>
+                <TextBox Text="{Binding Path=HostName}"/>
+                <Label>Host Port</Label>
+                <TextBox Text="{Binding Path=HostPort}"/>
+                <Label>Namespace</Label>
+                <TextBox Text="{Binding Path=Namespace}"/>
+                <Label>User</Label>
+                <TextBox Text="{Binding Path=User}"/>
+                <Label>Password</Label>
+                <TextBox Text="{Binding Path=Password}"/>
+                <Label>Desk Number</Label>
+                <TextBox Text="{Binding Path=DeskNumber}"/>
+                <Button x:Name="saveProfile" Content="Save Profile" Click="saveProfile_Click" Margin="10"/>
             </StackPanel>
         </TabItem>
         <TabItem>
             <TabItem.Header>
                 <TextBlock Text="General Settings"/>
             </TabItem.Header>
+            <StackPanel Orientation="Vertical" DataContext="{Binding ElementName=Profiles, Path=SelectedItem}">
+            <Label>Workstation Location</Label>
+            <TextBox Text="{Binding Path=ProfileName}"/>
+            <Label>Studio Location</Label>
+            <TextBox Text="{Binding Path=Description}"/>
+            <Button x:Name="saveSetting" Content="Save" Click="saveSetting_Click" Margin="10"/>
+            </StackPanel>
         </TabItem>
     </TabControl>
 </Window>

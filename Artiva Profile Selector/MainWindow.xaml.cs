@@ -66,6 +66,16 @@ namespace Artiva_Profile_Selector
         {
             MessageBox.Show("Add Profile Clicked");
         }
+
+        private void saveProfile_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void saveSetting_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 
     public class ArtivaProfile
