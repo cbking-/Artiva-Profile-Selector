@@ -19,6 +19,17 @@
                     <RowDefinition Height="38*"/>
                 </Grid.RowDefinitions>
                 <Button Grid.Row="0" x:Name="addProfile" Content="Add Profile" Click="addProfile_Click" HorizontalAlignment="Left" Margin="5, 0" VerticalAlignment="Center" Width="100"/>
+                <Button Grid.Row="0" x:Name="delProfile" Content="Delete Profile" Click="delProfile_Click" HorizontalAlignment="Right" Margin="5, 0" VerticalAlignment="Center" Width="100">
+                    <Button.Style>
+                        <Style TargetType="{x:Type Button}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding ElementName=Profiles, Path=SelectedItem}" Value="{x:Null}">
+                                    <Setter Property="IsEnabled" Value="False"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
                 <DataGrid Grid.Row="1" AutoGenerateColumns="False" Name="Profiles" ColumnWidth="*" IsReadOnly="True">
                     <DataGrid.Columns>
                         <DataGridTemplateColumn Header="Profile">
@@ -90,23 +101,23 @@
                     </Style.Triggers>
                 </Style>
             </TabItem.Style>
-            <StackPanel Orientation="Vertical" DataContext="{Binding ElementName=Profiles, Path=SelectedItem}">
+            <StackPanel Orientation="Vertical" DataContext="{Binding ElementName=Profiles, Path=SelectedItem}" Margin="0,0,0,53">
                 <Label>Profile Name</Label>
-                <TextBox Text="{Binding Path=ProfileName}"/>
+                <TextBox Name="profileNameBox" Text="{Binding Path=ProfileName}"/>
                 <Label>Description</Label>
-                <TextBox Text="{Binding Path=Description}"/>
+                <TextBox Name="descriptionBox" Text="{Binding Path=Description}"/>
                 <Label>Host Name/IP</Label>
-                <TextBox Text="{Binding Path=HostName}"/>
+                <TextBox Name="hostNameBox" Text="{Binding Path=HostName}"/>
                 <Label>Host Port</Label>
-                <TextBox Text="{Binding Path=HostPort}"/>
+                <TextBox Name="hostPortBox" Text="{Binding Path=HostPort}"/>
                 <Label>Namespace</Label>
-                <TextBox Text="{Binding Path=Namespace}"/>
+                <TextBox Name="namespaceBox" Text="{Binding Path=Namespace}"/>
                 <Label>User</Label>
-                <TextBox Text="{Binding Path=User}"/>
+                <TextBox Name="userBox" Text="{Binding Path=User}"/>
                 <Label>Password</Label>
-                <TextBox Text="{Binding Path=Password}"/>
+                <TextBox Name="passwordBox" Text="{Binding Path=Password}"/>
                 <Label>Desk Number</Label>
-                <TextBox Text="{Binding Path=DeskNumber}"/>
+                <TextBox Name="deskNumberBox" Text="{Binding Path=DeskNumber}"/>
                 <Button x:Name="saveProfile" Content="Save Profile" Click="saveProfile_Click" Margin="10"/>
             </StackPanel>
         </TabItem>

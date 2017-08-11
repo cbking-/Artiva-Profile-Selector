@@ -69,12 +69,68 @@ namespace Artiva_Profile_Selector
 
         private void saveProfile_Click(object sender, RoutedEventArgs e)
         {
+            ArtivaProfile oldProfile = (ArtivaProfile)Profiles.SelectedItem;
 
+            string oldProfileName = oldProfile.ProfileName;
+
+            ArtivaProfile newProfile = new ArtivaProfile
+            {
+                ProfileName = profileNameBox.Text,
+                Description = descriptionBox.Text,
+                HostName = hostNameBox.Text,
+                HostPort = hostPortBox.Text,
+                User = userBox.Text,
+                Password = passwordBox.Text,
+                Namespace = namespaceBox.Text,
+                DeskNumber = deskNumberBox.Text
+            };
+
+            var path = @"Software\VB and VBA Program Settings\Ontario Systems API Manager\Profiles";
+
+            try
+            {
+                using (RegistryKey key = Registry.CurrentUser.OpenSubKey(path, true))
+                {
+                    if (key != null)
+                    {
+                        key.DeleteValue(oldProfile.ProfileName);
+                        key.SetValue(newProfile.ProfileName, newProfile.ToDelimitedString(), Microsoft.Win32.RegistryValueKind.String);
+                    }
+                }
+                MessageBox.Show("Profile Saved");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void delProfile_Click(object sender, RoutedEventArgs e)
+        {
+            ArtivaProfile oldProfile = (ArtivaProfile)Profiles.SelectedItem;
+
+            var path = @"Software\VB and VBA Program Settings\Ontario Systems API Manager\Profiles";
+
+            try
+            {
+                using (RegistryKey key = Registry.CurrentUser.OpenSubKey(path, true))
+                {
+                    if (key != null)
+                    {
+                        key.DeleteValue(oldProfile.ProfileName);
+                    }
+                }
+                MessageBox.Show("Profile Deleted");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
         private void saveSetting_Click(object sender, RoutedEventArgs e)
         {
-
+            MessageBox.Show("Save Setting Clicked");
         }
     }
 
@@ -88,5 +144,10 @@ namespace Artiva_Profile_Selector
         public string User { get; set; }
         public string Password { get; set; }
         public string DeskNumber { get; set; }
+
+        public string ToDelimitedString()
+        {
+            return Description = Description + '\x7' + HostName + '\x7' + HostPort + '\x7' + User + '\x7' + Password + '\x7' + Namespace + '\x7' + DeskNumber;
+        }
     }
 }
