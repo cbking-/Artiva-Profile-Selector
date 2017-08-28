@@ -2,6 +2,7 @@
 using System.Windows;
 using Microsoft.Win32;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 
 namespace Artiva_Profile_Selector
 {
@@ -11,7 +12,9 @@ namespace Artiva_Profile_Selector
     public partial class MainWindow : Window
     {
         private ArtivaProfile oldProfile;
-        private string path;
+        private string registryPath;
+        private string workstationPath;
+        private string studioPath;
         private bool saved;
 
         public MainWindow()
@@ -38,12 +41,14 @@ namespace Artiva_Profile_Selector
                 Namespace = "",
                 DeskNumber = ""
             };
-            path = @"Software\VB and VBA Program Settings\Ontario Systems API Manager\Profiles";
+            registryPath = @"Software\VB and VBA Program Settings\Ontario Systems API Manager\Profiles";
+            workstationPath = @"C:\Program Files (x86)\Ontario\Workstation\guiApp.exe";
+            studioPath = @"C:\Program Files (x86)\Ontario\Stuido\studio.exe";
             saved = false;
 
             try
             {
-                using (RegistryKey key = Registry.CurrentUser.OpenSubKey(path))
+                using (RegistryKey key = Registry.CurrentUser.OpenSubKey(registryPath))
                 {
                     if (key != null)
                     {
@@ -74,12 +79,12 @@ namespace Artiva_Profile_Selector
 
         private void OpenWorkstation_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Open Workstation Clicked");
+            Process.Start(workstationPath, ((ArtivaProfile)Profiles.SelectedItem).ProfileName);
         }
 
         private void OpenStudio_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Open Studio Clicked");
+            Process.Start(studioPath, ((ArtivaProfile)Profiles.SelectedItem).ProfileName);
         }
 
         private void AddProfile_Click(object sender, RoutedEventArgs e)
@@ -115,7 +120,7 @@ namespace Artiva_Profile_Selector
             
             try
             {
-                using (RegistryKey key = Registry.CurrentUser.OpenSubKey(path, true))
+                using (RegistryKey key = Registry.CurrentUser.OpenSubKey(registryPath, true))
                 {
                     if (key != null)
                     {
@@ -147,7 +152,7 @@ namespace Artiva_Profile_Selector
                 
                 try
                 {
-                    using (RegistryKey key = Registry.CurrentUser.OpenSubKey(path, true))
+                    using (RegistryKey key = Registry.CurrentUser.OpenSubKey(registryPath, true))
                     {
                         if (key != null)
                         {
@@ -205,8 +210,7 @@ namespace Artiva_Profile_Selector
                     saved = false;
                 }
             }
-        }
-        
+        }    
     }
 
     public class ArtivaProfile
